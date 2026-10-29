@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="/preferences.js"></script>
+<script src="/translations.js"></script>
+<title data-i18n="gamedev_calendrar_lyktagames">Gamedev Calendrar · LyktaGames</title>
+<style>
+:root{color-scheme:dark;font:17px/1.6 system-ui;background:#101d21;color:#e5e9e4}body{max-width:1100px;margin:auto;padding:16px 24px}header{border-bottom:1px solid #395054;padding-bottom:8px;color:#e9bc75}h1{font-size:clamp(30px,4vw,44px);line-height:1.15;max-width:800px;margin:18px 0 8px}p{max-width:680px;color:#b9c9c8}section{margin:24px 0}article{background:#1a2c30;border:1px solid #395054;padding:24px;border-radius:12px}a{color:#f0c383}input{font:inherit;padding:8px;max-width:100%;box-sizing:border-box}footer{border-top:1px solid #395054;padding-top:24px}label{display:block}
+
+ul{list-style:none;padding:0}li{padding:18px 0;border-bottom:1px solid #395054;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}li a{font-weight:600}li span{color:#b9c9c8}.note{font-size:14px}h2{font-size:26px;margin:0 0 12px}
+
+.timeline{overflow-x:auto;margin:8px 0;padding:0}.timeline-chart{min-width:640px;position:relative}.timeline-axis{display:flex;justify-content:space-between;color:#b9c9c8;font-size:13px;margin-left:220px;padding-bottom:12px}.timeline-row{display:grid;grid-template-columns:220px 1fr;align-items:center;min-height:66px;gap:0}.timeline-label{padding-right:16px;font-size:14px}.timeline-label small{display:block;color:#b9c9c8}.timeline-track{position:relative;height:38px;background:#192b30;border-bottom:1px solid #395054}.timeline-today{position:absolute;top:0;bottom:0;border-left:2px solid #9edccc;z-index:1}.timeline-key{font-size:14px;color:#9edccc;max-width:900px;margin:0 0 8px}
+[data-type="festivals"]{--event-color:#e9bc75}[data-type="steam"]{--event-color:#89c4ff}[data-type="itch"]{--event-color:#e8a0d6}.legend{display:flex;flex-wrap:wrap;gap:4px 24px}.legend>span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--event-color);margin-right:8px}.timeline-label{border-left:3px solid var(--event-color);padding-left:10px}.timeline-row{padding:8px 0}
+.timeline-label .application-countdown{color:var(--event-color);font-weight:600}
+
+nav{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;font-size:14px}nav a{display:inline-flex;align-items:center;min-height:44px}nav a[aria-current="page"]{color:#e5e9e4;font-weight:700;text-decoration-thickness:3px;text-underline-offset:6px}main>p{margin:0 0 18px}
+.timeline-axis{display:block;position:relative;height:32px;padding:0;border-bottom:1px solid #61787c}
+.month-tick{position:absolute;bottom:0;height:8px;border-left:1px solid #a5b8b8}
+.month-tick span{position:absolute;bottom:10px;left:4px;white-space:nowrap}
+.timeline-track{height:100%;min-height:44px}
+.month-guide{position:absolute;top:-8px;bottom:-8px;border-left:1px solid #395054;pointer-events:none}
+.timeline-today{pointer-events:none}
+.timeline-marker{position:absolute;top:50%;transform:translateY(-50%);height:44px;min-width:24px;padding:0;border:0;background:transparent;cursor:pointer;z-index:2;color:inherit}
+.timeline-marker::before{content:"";display:block;position:absolute;left:0;right:0;top:17px;height:10px;border-radius:6px;background:var(--event-color)}
+.timeline-bar{min-width:0}
+.timeline-point,.timeline-application{width:28px;min-width:28px;transform:translate(-50%,-50%)}
+.timeline-point::before{width:10px;height:10px;left:9px;right:auto;border-radius:50%}
+.timeline-application::before{width:12px;height:12px;left:7px;top:15px;right:auto;border:2px solid #101d21;border-radius:0;transform:rotate(45deg)}
+.timeline-marker:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:4px}
+.timeline-tooltip{position:fixed;z-index:10;box-sizing:border-box;width:340px;max-width:calc(100vw - 24px);padding:14px 16px;background:#263d42;color:#e5e9e4;border:1px solid #9edccc;border-radius:8px;box-shadow:0 8px 30px #0008;font-size:14px;white-space:pre-line}
+#events{margin-top:16px}#events-title{font-size:20px;margin-bottom:8px}
+#about{border-top:1px solid #395054;padding-top:24px}
+@media(max-width:480px){body{padding:10px 16px}nav{gap:0 16px}h1{margin-top:14px}.timeline-label{font-size:13px}}
+.support-note{font-size:13px;max-width:680px}.support-note span{white-space:normal}
+</style>
+<link rel="stylesheet" href="/appearance.css">
+<header><div class="navigation-group"><nav aria-label="Main" data-i18n-aria-label="main"><a href="/"><span data-i18n="welcome">Welcome</span></a><a href="/games/"><span data-i18n="get_our_games">Our games</span></a><a href="/discord/">Discord</a><a href="/about/"><span data-i18n="about">About</span></a><a href="/calendar/" aria-current="true"><span data-i18n="for_game_developers">For game developers</span></a></nav><nav class="developer-nav" data-nav-parent="/calendar/" aria-label="For game developers" data-i18n-aria-label="for_game_developers"><a href="/calendar/" aria-current="page"><span data-i18n="calendar">Calendar</span></a><a href="/steam-page-design/"><span data-i18n="steam_page_design">Steam Page Design</span></a></nav></div><div class="preferences"><label><select id="language" aria-label="Language" data-i18n-aria-label="language"><option value="en">English</option><option value="sv">Svenska</option></select></label><div class="theme-options" role="group" aria-label="Appearance" data-i18n-aria-label="appearance"><button class="theme-choice" type="button" data-theme-choice="light" aria-label="Light" title="Light" data-i18n-aria-label="light" data-i18n-title="light" aria-pressed="false"></button><button class="theme-choice" type="button" data-theme-choice="warm" aria-label="Warm" title="Warm" data-i18n-aria-label="warm" data-i18n-title="warm" aria-pressed="false"></button><button class="theme-choice" type="button" data-theme-choice="dark" aria-label="Dark" title="Dark" data-i18n-aria-label="dark" data-i18n-title="dark" aria-pressed="true"></button></div></div><a class="header-home" href="/" aria-label="Lykta Games — Welcome" data-i18n-aria-label="studio_home"><img class="header-logo" src="/assets/lykta-games.png" width="674" height="702" alt="Lykta Games"></a></header>
+<main><h1><span data-i18n="gamedev_calendrar">Gamedev Calendrar</span></h1>
+<section id="events" aria-labelledby="events-title"><h2 id="events-title"><span data-i18n="events_sales_deadlines">Events, sales &amp; deadlines</span></h2>
+<div class="legend" aria-label="Event types" data-i18n-aria-label="event_types"><span data-type="festivals"><span data-i18n="festival_deadline">Festival deadline</span></span><span data-type="steam"><span data-i18n="steam_event">Steam event</span></span><span data-type="itch"><span data-i18n="game_jam">Game jam</span></span></div>
+<ul><li data-id="steam-scream-v" data-type="steam" data-start="2026-10-26" data-end="2026-11-02" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Steam Scream V ↗</a><span>Steam event · Event: 26 Oct 2026 – 2 Nov 2026 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="forward-thinking-showcase" data-type="festivals" data-start="2026-10-31" data-end="" data-apply-by="2026-10-31" data-apply-at="" data-label="Application deadline" data-start-at="" data-end-at="" data-note="" data-verified=""><a href="https://howtomarketagame.com/festivals/" target="_blank" rel="noopener noreferrer">Forward Thinking Showcase ↗</a><span>Festival deadline · Application deadline: 31 Oct 2026 · Apply by 31 Oct 2026</span></li>
+<li data-id="game-off-2026" data-type="itch" data-start="2026-11-01" data-end="2026-12-01" data-apply-by="" data-apply-at="" data-label="Starts" data-start-at="2026-11-01T21:37:27Z" data-end-at="2026-12-01T21:37:00Z" data-note="" data-verified="2026-10-28T10:17:17Z"><a href="https://itch.io/jam/game-off-2026" target="_blank" rel="noopener noreferrer">Game Off 2026 ↗</a><span>Game jam · Starts: 1 Nov 2026, 21:37:27 UTC – 1 Dec 2026, 21:37:00 UTC · Dates verified 28 Oct 2026</span></li>
+<li data-id="gdevelop-big-game-jam-10" data-type="itch" data-start="2026-11-06" data-end="2026-11-15" data-apply-by="" data-apply-at="" data-label="Starts" data-start-at="2026-11-06T19:00:00Z" data-end-at="2026-11-15T20:00:00Z" data-note="" data-verified="2026-10-28T10:17:17Z"><a href="https://itch.io/jam/gdevelop-big-game-jam-10" target="_blank" rel="noopener noreferrer">GDevelop BIG Game Jam #10 ↗</a><span>Game jam · Starts: 6 Nov 2026, 19:00:00 UTC – 15 Nov 2026, 20:00:00 UTC · Dates verified 28 Oct 2026</span></li>
+<li data-id="the-fun-the-dark-and-the-cozy-2027" data-type="festivals" data-start="2026-11-15" data-end="" data-apply-by="2026-11-15" data-apply-at="" data-label="Application deadline" data-start-at="" data-end-at="" data-note="" data-verified=""><a href="https://howtomarketagame.com/festivals/" target="_blank" rel="noopener noreferrer">The Fun, The Dark, and The Cozy 2027 ↗</a><span>Festival deadline · Application deadline: 15 Nov 2026 · Apply by 15 Nov 2026</span></li>
+<li data-id="auto-battler-rpg-fest" data-type="steam" data-start="2026-11-16" data-end="2026-11-23" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Auto-Battler RPG Fest ↗</a><span>Steam event · Event: 16 Nov 2026 – 23 Nov 2026 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="20-second-game-jam-2026" data-type="itch" data-start="2026-11-17" data-end="" data-apply-by="" data-apply-at="" data-label="Submissions close" data-start-at="2026-11-17T00:59:59Z" data-end-at="" data-note="" data-verified="2026-10-28T10:17:17Z"><a href="https://itch.io/jam/20-second-game-jam-2026" target="_blank" rel="noopener noreferrer">20 Second Game Jam 2026 ↗</a><span>Game jam · Submissions close: 17 Nov 2026, 00:59:59 UTC · Dates verified 28 Oct 2026</span></li>
+<li data-id="laughs-smiles-festival" data-type="festivals" data-start="2026-11-20" data-end="" data-apply-by="2026-11-20" data-apply-at="" data-label="Application deadline" data-start-at="" data-end-at="" data-note="" data-verified=""><a href="https://howtomarketagame.com/festivals/" target="_blank" rel="noopener noreferrer">Laughs &amp; Smiles Festival ↗</a><span>Festival deadline · Application deadline: 20 Nov 2026 · Apply by 20 Nov 2026</span></li>
+<li data-id="winter-sale" data-type="steam" data-start="2026-12-17" data-end="2027-01-04" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Seasonal sale; enter discounts via Discount Management. Eligible games may join during the sale; no single application cutoff is stated." data-verified="2026-10-28T10:17:17Z"><a href="https://partner.steamgames.com/doc/marketing/discounts/seasonalsales" target="_blank" rel="noopener noreferrer">Winter Sale ↗</a><span>Steam event · Event: 17 Dec 2026 – 4 Jan 2027 · Seasonal sale; enter discounts via Discount Management. Eligible games may join during the sale; no single application cutoff is stated. · Dates verified 28 Oct 2026</span></li>
+<li data-id="steam-next-fest" data-type="steam" data-start="2027-02-22" data-end="2027-03-01" data-apply-by="2027-01-10" data-apply-at="2027-01-10T23:59:00-08:00" data-label="Event" data-start-at="2027-02-22T10:00:00-08:00" data-end-at="2027-03-01T10:00:00-08:00" data-note="Demo showcase" data-verified="2026-10-28T10:17:17Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events/nextfest/feb_2027" target="_blank" rel="noopener noreferrer">Steam Next Fest: February 2027 ↗</a><span>Steam event · Event: 22 Feb 2027, 10:00:00 UTC-08:00 – 1 Mar 2027, 10:00:00 UTC-08:00 · Demo showcase · Register by 10 Jan 2027, 23:59:00 UTC-08:00 · Dates verified 28 Oct 2026</span></li>
+<li data-id="desktop-companion-fest" data-type="steam" data-start="2027-01-14" data-end="2027-01-18" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Desktop Companion Fest ↗</a><span>Steam event · Event: 14 Jan 2027 – 18 Jan 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="shop-keeper-fest" data-type="steam" data-start="2027-01-25" data-end="2027-02-01" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Shop Keeper Fest ↗</a><span>Steam event · Event: 25 Jan 2027 – 1 Feb 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="sheep-fest-2027" data-type="steam" data-start="2027-02-04" data-end="2027-02-08" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Sheep Fest ↗</a><span>Steam event · Event: 4 Feb 2027 – 8 Feb 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="couch-co-op-fest-2027" data-type="steam" data-start="2027-02-08" data-end="2027-02-15" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Couch Co-Op Fest ↗</a><span>Steam event · Event: 8 Feb 2027 – 15 Feb 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="rhythm-fest-2027" data-type="steam" data-start="2027-03-08" data-end="2027-03-15" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Rhythm Fest ↗</a><span>Steam event · Event: 8 Mar 2027 – 15 Mar 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="spring-sale-2027" data-type="steam" data-start="2027-03-18" data-end="2027-03-25" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Seasonal sale; enter discounts via Discount Management. Eligible games may join during the sale; no single application cutoff is stated." data-verified="2026-10-28T10:17:17Z"><a href="https://partner.steamgames.com/doc/marketing/discounts/seasonalsales" target="_blank" rel="noopener noreferrer">Spring Sale ↗</a><span>Steam event · Event: 18 Mar 2027 – 25 Mar 2027 · Seasonal sale; enter discounts via Discount Management. Eligible games may join during the sale; no single application cutoff is stated. · Dates verified 28 Oct 2026</span></li>
+<li data-id="dinos-vs-robots-fest-2027" data-type="steam" data-start="2027-03-29" data-end="2027-04-05" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Dinos vs. Robots Fest ↗</a><span>Steam event · Event: 29 Mar 2027 – 5 Apr 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="racing-fest-2027" data-type="steam" data-start="2027-04-12" data-end="2027-04-19" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Racing Fest ↗</a><span>Steam event · Event: 12 Apr 2027 – 19 Apr 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="witch-fest-2027" data-type="steam" data-start="2027-04-22" data-end="2027-04-26" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Witch Fest ↗</a><span>Steam event · Event: 22 Apr 2027 – 26 Apr 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="steam-next-fest-june-2027" data-type="steam" data-start="2027-06-14" data-end="2027-06-21" data-apply-by="2027-04-25" data-apply-at="2027-04-25T23:59:00-07:00" data-label="Event" data-start-at="2027-06-14T10:00:00-07:00" data-end-at="2027-06-21T10:00:00-07:00" data-note="Demo showcase" data-verified="2026-10-28T10:17:17Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events/nextfest/june_2027" target="_blank" rel="noopener noreferrer">Steam Next Fest: June 2027 ↗</a><span>Steam event · Event: 14 Jun 2027, 10:00:00 UTC-07:00 – 21 Jun 2027, 10:00:00 UTC-07:00 · Demo showcase · Register by 25 Apr 2027, 23:59:00 UTC-07:00 · Dates verified 28 Oct 2026</span></li>
+<li data-id="fighting-fest-2027" data-type="steam" data-start="2027-04-26" data-end="2027-05-03" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Fighting Fest ↗</a><span>Steam event · Event: 26 Apr 2027 – 3 May 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="real-time-strategy-fest-2027" data-type="steam" data-start="2027-05-10" data-end="2027-05-17" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Real-Time Strategy Fest ↗</a><span>Steam event · Event: 10 May 2027 – 17 May 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="mountaineering-fest-2027" data-type="steam" data-start="2027-05-31" data-end="2027-06-03" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Themed sale" data-verified="2026-10-28T10:04:43Z"><a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Mountaineering Fest ↗</a><span>Steam event · Event: 31 May 2027 – 3 Jun 2027 · Themed sale · Dates verified 28 Oct 2026</span></li>
+<li data-id="summer-sale-2027" data-type="steam" data-start="2027-06-24" data-end="2027-07-08" data-apply-by="" data-apply-at="" data-label="Event" data-start-at="" data-end-at="" data-note="Seasonal sale; enter discounts via Discount Management. Eligible games may join during the sale; no single application cutoff is stated." data-verified="2026-10-28T10:17:17Z"><a href="https://partner.steamgames.com/doc/marketing/discounts/seasonalsales" target="_blank" rel="noopener noreferrer">Summer Sale ↗</a><span>Steam event · Event: 24 Jun 2027 – 8 Jul 2027 · Seasonal sale; enter discounts via Discount Management. Eligible games may join during the sale; no single application cutoff is stated. · Dates verified 28 Oct 2026</span></li>
+</ul>
+<p class="note"><span data-i18n="ordered_by_application_deadline_when_known_otherwise_start_submis">Ordered by application deadline when known, otherwise start/submission date. Verification is recorded per event; curated dates were checked 28 October 2026. Steam event dates and known registration deadlines are labeled separately. Jam times are in UTC; festival cutoff times and time zones are unconfirmed.</span></p>
+<p class="note"><span data-i18n="sources">Sources:</span> <a href="https://partner.steamgames.com/doc/marketing/upcoming_events" target="_blank" rel="noopener noreferrer">Steamworks</a>, <a href="https://itch.io/jams" target="_blank" rel="noopener noreferrer">itch.io</a><span data-i18n="and_52">, and</span> <a href="https://howtomarketagame.com/festivals/" target="_blank" rel="noopener noreferrer"><span data-i18n="how_to_market_a_game_s_festival_calendar">How To Market A Game’s festival calendar</span></a><span data-i18n="follow_the_sources_for_full_listings_eligibility_and_applications">. Follow the sources for full listings, eligibility and applications.</span></p>
+</section>
+</main><footer><a class="footer-brand" href="/" aria-label="Lykta Games — Welcome" data-i18n-aria-label="studio_home"><img src="/assets/lykta-games.png" width="42" height="44" alt=""><span>Lykta Games</span></a></footer>
+<script>window.SitePreferences?.translate();</script>
+<script>
+(() => {
+const day=86400000;
+const t=(key,fallback=key,values={})=>window.SitePreferences?.t(key,fallback,values)??fallback.replace(/\{(\w+)\}/g,(_,name)=>values[name]);
+const locale=()=>window.SitePreferences?.language||'en';
+const now=new Date();
+const today=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+const date=s=>Date.parse(s+'T00:00:00Z');
+const format=n=>new Date(n).toLocaleDateString(locale(),{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+const sourceText=value=>locale()==='en'?value:window.siteMessages?.[value]?.sv||value+' (engelska)';
+function sourceDate(value){
+ const dateText=new Date(value.slice(0,10)+'T00:00:00Z').toLocaleDateString(locale(),{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
+ if(value.length<=10)return dateText;
+ const time=value.slice(11,19),zone=value.slice(19);
+ return dateText+' '+time+(zone==='Z'?' UTC':' UTC'+zone);
+}
+function eventDetails(item){
+ const span=item.querySelector('span');
+ if(!span.dataset.english)span.dataset.english=span.textContent;
+ if(locale()==='en')return span.dataset.english;
+ const d=item.dataset,kind={steam:'steam_event',itch:'game_jam',festivals:'festival_deadline'}[d.type];
+ const parts=[t(kind),sourceText(d.label)+': '+sourceDate(d.startAt||d.start)+(d.end?' – '+sourceDate(d.endAt||d.end):'')];
+ if(d.note)parts.push(sourceText(d.note));
+ if(d.applyBy)parts.push(t(d.type==='steam'?'Register by':'Apply by')+' '+sourceDate(d.applyAt||d.applyBy));
+ if(d.verified)parts.push(t('Dates verified')+' '+sourceDate(d.verified.slice(0,10)));
+ return parts.join(' · ');
+}
+function applicationCountdown(deadline,today){
+ const days=Math.round((deadline-today)/day);
+ return days>0?t(days===1?'applyWithinOne':'applyWithin',days===1?'Apply within 1 day':'Apply within {days} days',{days}):days===0?t('applyToday','Application deadline today'):t(days===-1?'applyAgoOne':'applyAgo',days===-1?'Application deadline passed 1 day ago':'Application deadline passed {days} days ago',{days:Math.abs(days)});
+}
+function timedApplicationCountdown(deadline,now){
+ const remaining=Date.parse(deadline)-now;
+ if(remaining<0)return t('applyPassed','Application deadline passed');
+ if(remaining<day)return t('applyWithinOne','Apply within 1 day');
+ return t('applyWithin','Apply within {days} days',{days:Math.ceil(remaining/day)});
+}
+const tooltip=document.createElement('div');tooltip.className='timeline-tooltip';tooltip.id='event-tooltip';tooltip.setAttribute('role','tooltip');tooltip.hidden=true;document.body.append(tooltip);
+let activeMarker,hideTimer;
+tooltip.addEventListener('pointerenter',()=>clearTimeout(hideTimer));
+tooltip.addEventListener('pointerleave',()=>{if(document.activeElement!==activeMarker)hideTooltip()});
+function hideTooltip(){clearTimeout(hideTimer);tooltip.hidden=true;if(activeMarker)activeMarker.removeAttribute('aria-describedby');activeMarker=null}
+function showTooltip(element,text){
+ hideTooltip();activeMarker=element;tooltip.textContent=text;tooltip.hidden=false;element.setAttribute('aria-describedby',tooltip.id);
+ const rect=element.getBoundingClientRect();
+ tooltip.style.left=Math.max(12,Math.min(rect.left,innerWidth-tooltip.offsetWidth-12))+'px';
+ tooltip.style.top=Math.max(12,Math.min(rect.bottom+6,innerHeight-tooltip.offsetHeight-12))+'px';
+}
+document.addEventListener('keydown',event=>{if(event.key==='Escape')hideTooltip()});
+document.addEventListener('pointerdown',event=>{if(!event.target.closest('.timeline-marker,.timeline-tooltip'))hideTooltip()});
+document.addEventListener('scroll',hideTooltip,true);
+window.addEventListener('resize',hideTooltip);
+function render(){
+ hideTooltip();
+ const section=document.getElementById('events');
+ section.querySelector('.timeline')?.remove();
+ const items=[...section.querySelectorAll('li')];
+ const events=items.map(item=>[item.dataset.start,item.dataset.end,item.dataset.label]);
+ const links=items.map(item=>item.querySelector('a'));
+ const deadlines=items.filter(item=>item.dataset.applyBy).map(item=>date(item.dataset.applyBy));
+ const earliest=Math.min(today-7*day,...events.map(e=>date(e[0])-3*day),...deadlines.map(d=>d-3*day));
+ const latest=Math.max(today+30*day,...events.map(e=>date(e[1]||e[0])+7*day));
+ // Whole UTC months provide room for labels and an identical scale for every row.
+ const first=new Date(earliest),last=new Date(latest);
+ const start=Date.UTC(first.getUTCFullYear(),first.getUTCMonth(),1);
+ const end=Date.UTC(last.getUTCFullYear(),last.getUTCMonth()+1,1);
+ const months=[];
+ for(let cursor=start;cursor<end;){months.push(cursor);const d=new Date(cursor);cursor=Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1)}
+ const position=n=>100*(n-start)/(end-start);
+ const wrap=document.createElement('div');wrap.className='timeline';
+ wrap.setAttribute('role','region');wrap.setAttribute('aria-label',t('timeline','{title} timeline',{title:section.querySelector('h2').textContent}));wrap.tabIndex=0;
+ const key=document.createElement('p');key.className='timeline-key';key.textContent=t('timelineKey','Today: {date} · Mint line · Bars: events · Dots: starts/submissions · Diamonds: apply by.',{date:format(today)});
+ wrap.append(key);
+ const chart=document.createElement('div');chart.className='timeline-chart';chart.style.minWidth=(220+months.length*92)+'px';
+ const axis=document.createElement('div');axis.className='timeline-axis';
+ for(const n of months){const tick=document.createElement('div');tick.className='month-tick';tick.style.left=position(n)+'%';const span=document.createElement('span');span.textContent=new Date(n).toLocaleDateString(locale(),{month:'short',year:'numeric',timeZone:'UTC'});tick.append(span);axis.append(tick)}chart.append(axis);
+ events.forEach((e,i)=>{
+ const a=date(e[0]),b=date(e[1]||e[0]),delta=Math.round((a-today)/day);
+ const ends=Math.round((b-today)/day);
+ const relative=e[1]&&a<=today&&b>=today?t(ends===1?'inProgressOne':'inProgress',ends===1?'In progress · ends in 1 day':'In progress · ends in {days} days',{days:ends}):delta===0?t('today','Today'):delta>0?t(delta===1?'inOne':'inDays',delta===1?'In 1 day':'In {days} days',{days:delta}):t(delta===-1?'oneAgo':'daysAgo',delta===-1?'1 day ago':'{days} days ago',{days:Math.abs(delta)});
+ const row=document.createElement('div');row.className='timeline-row';row.dataset.type=items[i].dataset.type;
+ const label=document.createElement('div');label.className='timeline-label';
+ const link=links[i].cloneNode(true);label.append(link);
+ const fullDetails=eventDetails(items[i]);
+ items[i].querySelector('span').textContent=fullDetails;
+ const details=document.createElement('small');details.textContent=fullDetails;
+ // The festival's event date and application date describe the same cutoff.
+ // Keep its full source detail in the tooltip and the no-JavaScript fallback.
+ if(items[i].dataset.type==='festivals'&&e[2]==='Application deadline'){
+ const parts=fullDetails.split(' · ');
+ const cutoff=parts.find(part=>part.startsWith(t('Apply by')+' '));
+ const kind=t('festival_deadline','Festival deadline');
+ if(cutoff)details.textContent=[cutoff,...parts.filter(part=>part!==kind&&!part.startsWith(t('Application deadline')+':')&&!part.startsWith(t('Apply by')+' '))].join(' · ');
+ }
+ label.append(details);
+ const applyBy=items[i].dataset.applyBy;
+ const sub=document.createElement('small');sub.textContent=items[i].dataset.applyAt?timedApplicationCountdown(items[i].dataset.applyAt,now.getTime()):applyBy?applicationCountdown(date(applyBy),today):relative;if(applyBy)sub.className='application-countdown';label.append(sub);
+ const track=document.createElement('div');track.className='timeline-track';
+ for(const n of months){const guide=document.createElement('span');guide.className='month-guide';guide.style.left=position(n)+'%';guide.setAttribute('aria-hidden','true');track.append(guide)}
+ const info=links[i].textContent+'\n'+fullDetails+'\n'+sub.textContent;
+ const attach=(element,meaning)=>{
+ element.type='button';element.setAttribute('aria-label',links[i].textContent+' · '+meaning);
+ const text=meaning+'\n'+info+(applyBy&&!items[i].dataset.applyAt?'\n'+t('cutoffUnknown','Application cutoff time and timezone unconfirmed.'):'');
+ element.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')showTooltip(element,text)});
+ element.addEventListener('pointerleave',()=>{if(document.activeElement!==element)hideTimer=setTimeout(hideTooltip,180)});
+ element.addEventListener('focus',()=>showTooltip(element,text));
+ element.addEventListener('blur',hideTooltip);
+ element.addEventListener('click',()=>showTooltip(element,text));
+ };
+
+ const marker=document.createElement('span');marker.className='timeline-today';marker.style.left=position(today)+'%';marker.setAttribute('aria-hidden','true');
+ const bar=document.createElement('button');bar.className='timeline-marker '+(e[1]?'timeline-bar':'timeline-point');bar.style.left=position(a)+'%';bar.style.width=Math.max(0,position(b)-position(a))+'%';
+ attach(bar,sourceText(e[2])+' · '+(e[1]?t('eventSpan','event span'):t('dateMarker','date marker')));
+ track.append(marker);
+ if(!applyBy||e[2]!=='Application deadline')track.append(bar);
+ if(applyBy){
+ const deadline=document.createElement('button');deadline.className='timeline-marker timeline-application';deadline.style.left=position(date(applyBy))+'%';
+ attach(deadline,t('Application deadline')+' · '+(items[i].dataset.applyAt||format(date(applyBy))));track.append(deadline);
+ }
+ row.append(label,track);chart.append(row);
+ });
+ const list=section.querySelector('ul');
+ wrap.append(chart);section.insertBefore(wrap,list);
+ list.hidden=true;
+}
+render();
+document.addEventListener('languagechange',render);
+// Reload after the local calendar date changes so “today” stays accurate.
+setInterval(()=>{const n=new Date();if(Date.UTC(n.getFullYear(),n.getMonth(),n.getDate())!==today||document.querySelector('[data-apply-at]'))location.reload()},60000);
+})();
+</script>
+</html>

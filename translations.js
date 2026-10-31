@@ -183,6 +183,10 @@ window.siteMessages = {
     "en": "Discord · Lykta Games",
     "sv": "Discord · Lykta Games"
   },
+  "end_with_one_call_to_action_either_wishlist_on_steam_or_join_discord": {
+    "en": "End with one call to action: either wishlist on Steam or join our Discord, not both. A single clear next step is more likely to be followed; offering a choice can mean viewers do neither.",
+    "sv": "Avsluta med en enda uppmaning: antingen lägga spelet på önskelistan på Steam eller gå med i vår Discord, inte båda. Ett enda tydligt nästa steg följs oftare; ett val kan leda till att tittarna inte gör någotdera."
+  },
   "eventSpan": {
     "en": "event span",
     "sv": "evenemangets längd"
